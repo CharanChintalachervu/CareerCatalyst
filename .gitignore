@@ -1,0 +1,40 @@
+# Node / Next.js
+node_modules/
+npm-debug.log*
+yarn.lock
+pnpm-lock.yaml
+.next/
+dist/
+build/
+out/
+
+# Python / FastAPI
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+
+# Env / Secrets
+.env
+.env.*
+!.env.example
+!.env.local.example
+web/.env.local
+api/.env
+ml-service/.env
+
+# OS / Editors
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+logs/
+*.log
+
+# Frontend / ML
+web/.next/
+web/out/
+ml-service/data/*.csv
+ml-service/models/
