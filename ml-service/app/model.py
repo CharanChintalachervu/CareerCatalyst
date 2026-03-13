@@ -1,8 +1,8 @@
 from __future__ import annotations
 import os
 from typing import Tuple, Dict, Any
+import csv
 import joblib
-import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import Pipeline
@@ -13,9 +13,11 @@ MODEL_PATH = os.getenv("MODEL_PATH", os.path.join(os.path.dirname(__file__), "mo
 DATA_PATH = os.getenv("DATA_PATH", os.path.join(os.path.dirname(__file__), "..", "data", "seed.csv"))
 
 def train_model(data_path: str = DATA_PATH, save_path: str = MODEL_PATH) -> Tuple[Pipeline, Dict[str, Any]]:
-    df = pd.read_csv(data_path)
-    X = df["interests"].astype(str).values
-    y = df["role"].astype(str).values
+    with open(data_path, newline='', encoding='utf-8') as f:
+        reader = csv.DictReader(f)
+        rows = list(reader)
+    X = [r["interests"] for r in rows]
+    y = [r["role"].strip() for r in rows]
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
     pipe = Pipeline([
         ("tfidf", TfidfVectorizer(ngram_range=(1,2), min_df=1)),
